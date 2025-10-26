@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Album Foto Animasi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #0d0d2b, #000000 80%);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative;
+      gap: 15px;
+    }
+
+    /* 🌌 Bintang latar belakang */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .star-bg {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* 📖 Album */
+    .album {
+      width: 400px;
+      height: 300px;
+      perspective: 1500px;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .cover {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #b0b0b0, #6e6e6e);
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2), 0 0 30px rgba(0,0,0,0.6);
+      transform-origin: left;
+      transition: transform 1s ease-in-out;
+      position: absolute;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .cover.open {
+      transform: rotateY(-160deg);
+    }
+
+    .cover h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 30px;
+      font-weight: 700;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+      position: absolute;
+      top: 30px;
+      z-index: 6;
+    }
+
+    .cover::before {
+      content: "";
+      width: 100px;
+      height: 100px;
+      background: black;
+      border-radius: 50%;
+      position: absolute;
+      top: 90px;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    .cover::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(90deg, #b71c1c, #e53935, #b71c1c);
+      z-index: 1;
+      box-shadow: 0 0 10px rgba(229,57,53,0.6);
+    }
+
+    /* ✨ Efek kilau menggeser */
+    .shine {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 60%);
+      transform: rotate(25deg);
+      animation: shineMove 6s infinite linear;
+      z-index: 3;
+    }
+    @keyframes shineMove {
+      0% { transform: translateX(-100%) rotate(25deg); }
+      100% { transform: translateX(100%) rotate(25deg); }
+    }
+
+    /* 🎀 Pita */
+    .ribbon {
+      position: absolute;
+      top: 110px;
+      width: 90px;
+      z-index: 6;
+      animation: swing 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px pink); }
+      to { filter: drop-shadow(0 0 15px hotpink); }
+    }
+
+    /* ✨ Efek kilau di sekitar pita */
+    .sparkle {
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 90px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .sparkle span {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, white, pink);
+      border-radius: 50%;
+      animation: sparkleMove 3s infinite ease-in-out;
+      opacity: 0.8;
+      box-shadow: 0 0 10px white;
+    }
+
+    .sparkle span:nth-child(1) { top: -10px; left: 45%; animation-delay: 0s; }
+    .sparkle span:nth-child(2) { top: 10px; left: 10%; animation-delay: 0.5s; }
+    .sparkle span:nth-child(3) { top: 10px; right: 10%; animation-delay: 1s; }
+    .sparkle span:nth-child(4) { bottom: 5px; left: 40%; animation-delay: 1.5s; }
+    .sparkle span:nth-child(5) { bottom: 15px; right: 20%; animation-delay: 2s; }
+
+    @keyframes sparkleMove {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* 💖 Love dari bawah pita */
+    .love-container {
+      position: absolute;
+      top: 175px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+    }
+
+    .love {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: floatLove 3s infinite ease-in-out;
+      opacity: 0.8;
+    }
+
+    .love::before,
+    .love::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+
+    .love::before { top: -9px; left: 0; }
+    .love::after { left: -9px; top: 0; }
+
+    @keyframes floatLove {
+      0% { transform: translateY(0) rotate(45deg) scale(1); opacity: 1; }
+      100% { transform: translateY(-60px) rotate(45deg) scale(1.2); opacity: 0; }
+    }
+
+    /* 📄 Halaman album */
+    .page {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+    .page.show {
+      opacity: 1;
+    }
+
+    #page1 { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+    #page2 { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+    #page3 { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+    #page4 { background: linear-gradient(135deg, #f8cdda, #1d2b64); position: relative; }
+
+    .photos {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .photos img {
+      max-width: 160px;
+      max-height: 190px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+    .photos img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+    }
+
+    /* 🎂 Kue Ulang Tahun */
+    .cake-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .cake-img {
+      width: 200px;
+      height: auto;
+      border-radius: 10px;
+      animation: bounce 2s infinite ease-in-out;
+      filter: drop-shadow(0 5px 20px rgba(0,0,0,0.4));
+    }
+
+    .flame {
+      position: absolute;
+      top: calc(50% - 110px);
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, #ffec85 40%, #ffae00 80%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: flicker 0.25s infinite alternate;
+      box-shadow: 0 0 15px 5px rgba(255, 170, 0, 0.8);
+    }
+
+    .flame:nth-child(1) { left: calc(50% - 40px); }
+    .flame:nth-child(2) { left: calc(50% - 20px); }
+    .flame:nth-child(3) { left: calc(50%); }
+    .flame:nth-child(4) { left: calc(50% + 20px); }
+    .flame:nth-child(5) { left: calc(50% + 40px); }
+
+    @keyframes flicker {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .wish {
+      margin-top: 15px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 28px;
+      color: white;
+      text-shadow: 0 0 20px rgba(255,255,255,0.8);
+      animation: glowText 2s infinite alternate;
+      text-align: center;
+    }
+    @keyframes glowText {
+      from { text-shadow: 0 0 10px white; }
+      to { text-shadow: 0 0 25px pink; }
+    }
+
+    /* 🔘 Tombol */
+    #nextBtn {
+      padding: 10px 20px;
+      background: linear-gradient(90deg, #e53935, #b71c1c);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 9999;
+      transition: 0.3s;
+    }
+    #nextBtn:hover {
+      background: linear-gradient(90deg, #ff6f61, #d32f2f);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+
+  <div class="album" id="album">
+    <div class="cover" id="cover">
+      <h1>Sadella Tasya Ramadhani</h1>
+      <div class="shine"></div>
+      <img src="pita-removebg-preview.png" alt="Pita" class="ribbon">
+
+      <!-- ✨ Efek kilau di sekitar pita -->
+      <div class="sparkle">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- 💖 Hati muncul dari bawah pita -->
+      <div class="love-container">
+        <div class="love" style="animation-delay: 0s;"></div>
+        <div class="love" style="animation-delay: 1s;"></div>
+        <div class="love" style="animation-delay: 2s;"></div>
+      </div>
+    </div>
+
+    <div class="page" id="page1">
+      <div class="photos">
+        <img src="2.jpeg" alt="Foto 1">
+        <img src="3.jpeg" alt="Foto 2">
+      </div>
+    </div>
+
+    <div class="page" id="page2">
+      <div class="photos">
+        <img src="8.jpeg" alt="Foto 3">
+        <img src="5.jpeg" alt="Foto 4">
+      </div>
+    </div>
+
+    <div class="page" id="page3">
+      <div class="photos">
+        <img src="4.jpeg" alt="Foto 5">
+        <img src="6.jpeg" alt="Foto 6">
+      </div>
+    </div>
+
+    <div class="page" id="page4">
+      <div class="cake-container">
+        <div class="flame"></div>
+        <div class="flame"></div>
+        <div class="flame"></div>
+        <div class="flame"></div>
+        <div class="flame"></div>
+        <img src="images-removebg-preview.png" alt="Kue Ulang Tahun" class="cake-img">
+        <div class="wish">Happy Birthday Sadella Tasya Ramadhani 🎉🎉🎉</div>
+      </div>
+    </div>
+  </div>
+
+  <button id="nextBtn">Lanjut ➡</button>
+
+  <script>
+    const album = document.getElementById("album");
+    const cover = document.getElementById("cover");
+    const pages = document.querySelectorAll(".page");
+    let currentPage = -1;
+
+    album.addEventListener("click", () => {
+      if (currentPage === -1) {
+        cover.classList.add("open");
+        currentPage = 0;
+        pages[currentPage].classList.add("show");
+      } else {
+        pages[currentPage].classList.remove("show");
+        if (currentPage < pages.length - 1) {
+          currentPage++;
+          pages[currentPage].classList.add("show");
+        } else {
+          cover.classList.remove("open");
+          currentPage = -1;
+        }
+      }
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      window.location.href = "surprise.html";
+    });
+
+    // 🌠 Membuat bintang acak
+    const starsContainer = document.getElementById("stars");
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star-bg");
+      const size = Math.random() * 3 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+      starsContainer.appendChild(star);
+    }
+
+
+
+  </script>
+</body>
+</html>

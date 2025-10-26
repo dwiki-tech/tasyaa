@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kejutan Ulang Tahun 🎉</title>
+<style>
+  :root {
+    --pink: #ff4d6d;
+    --light-pink: #ffe6ee;
+    --white-pink: #fff8f9;
+  }
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* 🌄 Tambahkan gambar latar belakang */
+  background: radial-gradient(circle at center, rgba(13, 13, 43, 0.8), rgba(0, 0, 0, 0.95)),
+              url('8.jepg'); /* Ganti dengan nama file gambarmu */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  position: relative;
+  gap: 15px;
+}
+
+  #start {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    background: white;
+    padding: 15px 35px;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    text-align: center;
+  }
+
+  #start:hover {
+    transform: scale(1.1);
+    background: #ffe6f0;
+  }
+
+  #container {
+    display: none;
+    text-align: center;
+    color: white;
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    animation: fadeIn 2s ease-in-out;
+    text-shadow: 2px 2px 4px var(--pink);
+    margin-bottom: 25px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ✨ Desain kartu lucu ✨ */
+  .card {
+    background: var(--white-pink);
+    color: var(--pink);
+    font-family: 'Comic Sans MS', 'Poppins', cursive;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    margin: 0 auto 25px;
+    animation: floatCard 3s ease-in-out infinite;
+    border: 2px dashed #ff9fc2;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    width: 100%;
+    height: 100%;
+    background: var(--light-pink);
+    border-radius: 20px;
+    z-index: -1;
+    transform: rotate(-2deg);
+  }
+
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .card p {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.8;
+    margin-bottom: 55px; /* Ruang di bawah teks agar boneka tidak menutupi */
+  }
+
+  /* 🧸 Boneka animasi berjalan di bawah teks (di dalam card) */
+  .doll {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    font-size: 2.5rem;
+    animation: walkDoll 9s linear infinite;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  @keyframes walkDoll {
+    0% {
+      left: 10px;
+      transform: scaleX(1);
+    }
+    49% {
+      left: calc(100% - 60px);
+      transform: scaleX(1);
+    }
+    50% {
+      left: calc(100% - 60px);
+      transform: scaleX(-1);
+    }
+    99% {
+      left: 10px;
+      transform: scaleX(-1);
+    }
+    100% {
+      left: 10px;
+      transform: scaleX(1);
+    }
+  }
+
+  /* 🐻🦊 Boneka diam di kiri & kanan atas card */
+  .doll-left,
+  .doll-right {
+    position: absolute;
+    top: -15px;
+    font-size: 2.3rem;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .doll-left {
+    left: 10px;
+  }
+
+  .doll-right {
+    right: 10px;
+  }
+
+  /* Tombol lanjut */
+  .next-btn {
+    background: white;
+    color: var(--pink);
+    font-size: clamp(1rem, 3vw, 1.1rem);
+    padding: 10px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+  }
+
+  .next-btn:hover {
+    background: var(--pink);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  /* Balon & hati */
+  .balloon {
+    position: absolute;
+    bottom: -150px;
+    width: 50px;
+    height: 70px;
+    background: radial-gradient(circle at 30% 30%, #ff8fab, var(--pink));
+    border-radius: 50%;
+    animation: floatUp 8s ease-in infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+  }
+
+  .heart {
+    position: absolute;
+    color: var(--pink);
+    font-size: 24px;
+    animation: floatHeart 5s ease-in infinite;
+  }
+
+  @keyframes floatHeart {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Responsif */
+  @media (max-width: 480px) {
+    .card {
+      padding: 20px;
+    }
+    .doll {
+      font-size: 2rem;
+    }
+    .doll-left, .doll-right {
+      font-size: 2rem;
+      top: -10px;
+    }
+    .next-btn {
+      width: 100%;
+      max-width: 250px;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="start">🎁 Klik untuk lihat!</div>
+
+<div id="container">
+  <h1>💖 Selamat Ulang Tahun 💖</h1>
+
+  <div class="card">
+    <!-- Boneka diam di atas -->
+    <div class="doll-left">🐻</div>
+    <div class="doll-right">🦊</div>
+
+    <p>
+      Di hari istimewa ini, aku cuma ingin kamu tahu betapa berharganya dirimu.  
+      Kamu telah melalui banyak hal dan tetap berdiri kuat, tersenyum, dan memberi cahaya bagi orang di sekitarmu.  
+      <br><br>
+      Aku berdoa semoga setiap langkahmu penuh keberkahan dan kebahagiaan.  
+      Kamu pantas mendapatkan cinta, kedamaian, dan semua hal indah dalam hidup ini. 🌷✨  
+    </p>
+
+    <!-- Boneka animasi di dalam card, di bawah teks -->
+    <div class="doll">🧸</div>
+  </div>
+
+
+  <audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_80c6d31f9a.mp3?filename=romantic-piano-melody-11274.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<script>
+  const startBtn = document.getElementById('start');
+  const container = document.getElementById('container');
+  const music = document.getElementById('music');
+
+  startBtn.onclick = () => {
+    startBtn.style.display = 'none';
+    container.style.display = 'block';
+    music.play();
+
+    // Balon dan hati muncul
+    for (let i = 0; i < 15; i++) {
+      let balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(balloon);
+    }
+
+    for (let i = 0; i < 15; i++) {
+      let heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(heart);
+    }
+  };
+
+</script>
+
+</body>
+</html>
